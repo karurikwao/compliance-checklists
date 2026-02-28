@@ -5,6 +5,7 @@ const checklists = [
     id: 'hipaa',
     title: 'HIPAA Compliance',
     subtitle: 'Healthcare Providers',
+    description: 'Complete checklist for healthcare data protection compliance.',
     icon: Shield,
     gradient: 'from-blue-500 to-cyan-500',
     pages: 14,
@@ -14,6 +15,7 @@ const checklists = [
     id: 'gdpr',
     title: 'GDPR Compliance',
     subtitle: 'SaaS & EU Businesses',
+    description: 'European data protection regulation compliance guide.',
     icon: Globe,
     gradient: 'from-indigo-500 to-purple-500',
     pages: 16,
@@ -23,6 +25,7 @@ const checklists = [
     id: 'soc2',
     title: 'SOC 2 Type II',
     subtitle: 'Tech & SaaS Companies',
+    description: 'Service organization control compliance framework.',
     icon: FileCheck,
     gradient: 'from-amber-500 to-orange-500',
     pages: 15,
@@ -32,6 +35,7 @@ const checklists = [
     id: 'ccpa',
     title: 'CCPA/CPRA',
     subtitle: 'California Businesses',
+    description: 'California consumer privacy rights compliance.',
     icon: Lock,
     gradient: 'from-green-500 to-emerald-500',
     pages: 15,
@@ -41,6 +45,7 @@ const checklists = [
     id: 'iso27001',
     title: 'ISO 27001',
     subtitle: 'Enterprise Security',
+    description: 'Information security management system standard.',
     icon: Server,
     gradient: 'from-purple-500 to-pink-500',
     pages: 18,
@@ -50,6 +55,7 @@ const checklists = [
     id: 'pci',
     title: 'PCI DSS',
     subtitle: 'E-commerce & Payments',
+    description: 'Payment card industry data security standard.',
     icon: CreditCard,
     gradient: 'from-orange-500 to-red-500',
     pages: 19,
@@ -91,16 +97,17 @@ function App() {
             const Icon = checklist.icon
             return (
               <div key={checklist.id} className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
-                <div className={g-gradient-to-r  text-white p-3 rounded-lg w-fit mb-4}>
+                <div className={`bg-gradient-to-r ${checklist.gradient} text-white p-3 rounded-lg w-fit mb-4`}>
                   <Icon className="w-8 h-8" />
                 </div>
                 <h3 className="text-xl font-bold mb-1">{checklist.title}</h3>
                 <p className="text-gray-500 text-sm mb-2">{checklist.subtitle}</p>
+                <p className="text-gray-600 mb-4">{checklist.description}</p>
                 <p className="text-sm text-gray-400 mb-4">{checklist.pages} pages</p>
                 <a 
                   href={checklist.downloadUrl} 
                   download 
-                  className={lock w-full text-center bg-gradient-to-r  text-white py-2 rounded-md font-medium hover:opacity-90}
+                  className={`block w-full text-center bg-gradient-to-r ${checklist.gradient} text-white py-2 rounded-md font-medium hover:opacity-90`}
                 >
                   <Download className="w-4 h-4 inline mr-2" />
                   Download Free
