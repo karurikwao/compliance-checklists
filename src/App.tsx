@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { LucideProps } from 'lucide-react'
-import { Shield, Globe, FileCheck, Lock, Server, CreditCard, Download, X, Settings, AlertCircle, Loader2, Mail } from 'lucide-react'
+import { Shield, Globe, FileCheck, Lock, Server, CreditCard, Download, X, Settings, Loader2, Mail } from 'lucide-react'
 import { supabase, getAdSettings, updateAdSettings, adminLogin, adminLogout, isAdmin } from './lib/supabase'
 
 // ============================================
@@ -261,7 +261,7 @@ function AdminDashboard({ onLogout }: { onLogout: () => void }) {
 // ADMIN LOGIN COMPONENT (with Forgot Password)
 // ============================================
 function AdminLogin({ onLogin }: { onLogin: () => void }) {
-  const [email, setEmail] = useState('luewaweru@gmail.com') // Pre-filled admin email
+  const [email, setEmail] = useState('luewaweru@gmail.com')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
   const [loggingIn, setLoggingIn] = useState(false)
@@ -473,6 +473,17 @@ function AdModal({
     } 
   }, [count, isOpen, config.enabled])
 
+  // FIX: Trigger download properly for all browsers
+  const triggerDownload = () => {
+    const a = document.createElement('a')
+    a.href = checklist.downloadUrl
+    a.setAttribute('download', '')
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    onClose()
+  }
+
   if (!isOpen) return null
 
   const Icon = checklist.icon
@@ -510,15 +521,14 @@ function AdModal({
             ) : (
               <div className="space-y-4">
                 <p className="text-gray-600">Your file is ready!</p>
-                <a 
-                  href={checklist.downloadUrl} 
-                  download 
-                  onClick={onClose}
+                {/* FIX: Use button with triggerDownload instead of <a> */}
+                <button 
+                  onClick={triggerDownload}
                   className={`inline-block px-8 py-3 rounded-lg text-white font-medium bg-gradient-to-r ${checklist.gradient} hover:opacity-90`}
                 >
                   <Download className="w-5 h-5 inline mr-2" />
                   Download Now
-                </a>
+                </button>
               </div>
             )
           ) : (
@@ -528,15 +538,13 @@ function AdModal({
                 <Icon className="w-12 h-12" />
               </div>
               <p className="text-gray-600">Click below to download your file</p>
-              <a 
-                href={checklist.downloadUrl} 
-                download 
-                onClick={onClose}
+              <button 
+                onClick={triggerDownload}
                 className={`inline-block px-8 py-3 rounded-lg text-white font-medium bg-gradient-to-r ${checklist.gradient} hover:opacity-90`}
               >
                 <Download className="w-5 h-5 inline mr-2" />
                 Download Now
-              </a>
+              </button>
             </div>
           )}
         </div>
@@ -694,22 +702,6 @@ function App() {
               </div>
             )
           })}
-        </div>
-      </section>
-
-      {/* Note about downloads */}
-      <section className="container mx-auto px-4 py-8">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 max-w-2xl mx-auto">
-          <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5" />
-            <div>
-              <h4 className="font-semibold text-yellow-800">About Downloads</h4>
-              <p className="text-yellow-700 text-sm mt-1">
-                Make sure to upload your ZIP files to the <code className="bg-yellow-100 px-1 rounded">public/downloads/</code> folder 
-                in your GitHub repository. The download links won't work without the actual files.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
